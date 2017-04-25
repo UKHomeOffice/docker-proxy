@@ -1,0 +1,51 @@
+pipeline:
+
+  build_image:
+    image: docker:1.11
+    environment:
+      - NAME=proxy
+      - DOCKER_HOST=tcp://127.0.0.1:2375
+    commands:
+      - docker build -t "${NAME}:${DRONE_BUILD_NUMBER}" .
+
+  push_image_master:
+    image: docker:1.11
+    environment:
+      - NAME=proxy
+      - REPO=quay.io
+      - BASE=/ukhomeofficedigital/
+      - DOCKER_HOST=tcp://127.0.0.1:2375
+      - DOCKER_USERNAME=ukhomeofficedigital+proxy
+    commands:
+      - FULL_NAME="${REPO}${BASE}${NAME}:latest"
+      - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${REPO}"
+      - docker tag "${NAME}" "${FULL_NAME}"
+      - docker push "${FULL_NAME}"
+    when:
+      branch: master
+      event: push
+
+  push_image_tag:
+    image: docker:1.11
+    environment:
+      - NAME=proxy
+      - REPO=quay.io
+      - BASE=/ukhomeofficedigital/
+      - DOCKER_HOST=tcp://127.0.0.1:2375
+      - DOCKER_USERNAME=ukhomeofficedigital+proxy
+    commands:
+      - FULL_NAME="${REPO}${BASE}${NAME}:${DRONE_TAG}"
+      - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${REPO}"
+      - docker tag "${NAME}" "${FULL_NAME}"
+      - docker push "${FULL_NAME}"
+    when:
+      branch: master
+      event: push
+
+services:
+  dind:
+    image: docker:1.11-dind
+    privileged: true
+    command:
+      - "-s"
+      - "overlay"
