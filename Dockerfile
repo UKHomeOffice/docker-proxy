@@ -1,5 +1,10 @@
 FROM centos:centos6
 
+RUN yum clean all \
+ && yum update -y \
+ && yum clean all \
+ && rpm --rebuilddb
+
 RUN yum install -y openssh-clients openssh-server \
  && chkconfig sshd on \
  && mkdir -p /scripts \
