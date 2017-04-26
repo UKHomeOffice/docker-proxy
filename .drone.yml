@@ -39,8 +39,7 @@ pipeline:
       - docker tag "${NAME}" "${FULL_NAME}"
       - docker push "${FULL_NAME}"
     when:
-      branch: master
-      event: push
+      event: tag
 
 services:
   dind:
