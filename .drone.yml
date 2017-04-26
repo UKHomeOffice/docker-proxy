@@ -19,7 +19,7 @@ pipeline:
     commands:
       - FULL_NAME="${REPO}${BASE}${NAME}:latest"
       - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${REPO}"
-      - docker tag "${NAME}" "${FULL_NAME}"
+      - docker tag "${NAME}:${DRONE_BUILD_NUMBER}" "${FULL_NAME}"
       - docker push "${FULL_NAME}"
     when:
       branch: master
@@ -36,7 +36,7 @@ pipeline:
     commands:
       - FULL_NAME="${REPO}${BASE}${NAME}:${DRONE_TAG}"
       - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${REPO}"
-      - docker tag "${NAME}" "${FULL_NAME}"
+      - docker tag "${NAME}:${DRONE_BUILD_NUMBER}" "${FULL_NAME}"
       - docker push "${FULL_NAME}"
     when:
       event: tag
