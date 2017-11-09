@@ -1,18 +1,17 @@
-FROM centos:centos6
+FROM centos:centos7
 
-RUN yum clean all \
+RUN yum install -y nmap-ncat \
+ && yum clean all \
  && yum update -y \
  && yum clean all \
- && rpm --rebuilddb
+ && rm -rf /var/cache/yum \
+ && rpm --rebuilddb \
+ && useradd -rUm symds -d /app/ \
+ && chown -R symds:symds /app/
 
-RUN yum install -y openssh-clients openssh-server \
- && chkconfig sshd on \
- && mkdir -p /scripts \
- && ssh-keygen -f "/root/.ssh/id_rsa" -t rsa -N '' \
- && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+USER symds
+WORKDIR /app
 
-COPY ./scripts/setup-tunnel.sh /scripts/setup-tunnel.sh
-COPY ./etc/rc.d/rc.local /etc/rc.d/rc.local
-COPY ./entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /app/
 
-CMD ["/entrypoint.sh"]
+CMD ["./entrypoint.sh"]
