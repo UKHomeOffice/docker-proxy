@@ -1,7 +1,13 @@
 #! /bin/sh
 
-export HOST="${HOST}"
-export PORT="${PORT}"
-export LISTEN_PORT="${LISTEN_PORT:-1337}"
+HOST="${HOST}"
+PORT="${PORT}"
+LISTEN_PORT="${LISTEN_PORT:-1337}"
+IDLE_TIMEOUT="${IDLE_TIMEOUT:-60m}"
 
-exec -- nc -l -p "${LISTEN_PORT}" -c "nc '${HOST}' '${PORT}'"
+echo "Proxying port ${LISTEN_PORT} to ${HOST}:${PORT}..."
+
+nc -kl \
+   -p "${LISTEN_PORT}" \
+   -c "nc '${HOST}' '${PORT}'" \
+   -i "${IDLE_TIMEOUT}"

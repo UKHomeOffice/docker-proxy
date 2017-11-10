@@ -18,4 +18,4 @@ clean:
 
 test:
 	echo "Please visit http://localhost:1337."
-	docker run --rm --name proxy -e "HOST=google.com" -e "PORT=80" -p "1337:1337" "${IMAGE}"
+	docker run --rm --name proxy -e "HOST=google.com" -e "PORT=80" -e "IDLE_TIMEOUT=1m" -p "1337:1337" "${IMAGE}"
