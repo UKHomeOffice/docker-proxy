@@ -6,10 +6,10 @@ RUN yum install -y nmap-ncat \
  && yum clean all \
  && rm -rf /var/cache/yum \
  && rpm --rebuilddb \
- && useradd -rUm symds -d /app/ \
+ && useradd -rUm -u 31337 symds -d /app/ \
  && chown -R symds:symds /app/
 
-USER symds
+USER 31337
 WORKDIR /app
 
 COPY entrypoint.sh /app/
