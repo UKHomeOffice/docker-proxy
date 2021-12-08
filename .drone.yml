@@ -10,7 +10,7 @@ platform:
 steps:
 - name: build_image
   pull: if-not-exists
-  image: plugins/docker
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
   environment:
@@ -19,7 +19,7 @@ steps:
 
 - name: push_image_master
   pull: if-not-exists
-  image: plugins/docker
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - FULL_NAME=$${REPO}$${BASE}$${NAME}
   - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
@@ -43,7 +43,7 @@ steps:
 
 - name: push_image_tag
   pull: if-not-exists
-  image: plugins/docker
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - FULL_NAME=$${REPO}$${BASE}$${NAME}:$${DRONE_COMMIT_SHA}
   - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
@@ -59,7 +59,6 @@ steps:
     REPO: quay.io
   when:
     event:
-    - push
     - tag
 
 services:
