@@ -15,7 +15,7 @@ steps:
   - sleep 10
   - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
   environment:
-    DOCKER_HOST: tcp://172.17.0.1:2375
+    DOCKER_HOST: tcp://127.0.0.1:2375
     NAME: proxy
 
 - name: push_image_master
@@ -30,7 +30,7 @@ steps:
   - docker push $${FULL_NAME}:latest
   environment:
     BASE: /ukhomeofficedigital/
-    DOCKER_HOST: tcp://172.17.0.1:2375
+    DOCKER_HOST: tcp://127.0.0.1:2375
     DOCKER_PASSWORD:
       from_secret: docker_password
     DOCKER_USERNAME: ukhomeofficedigital+proxy
@@ -52,7 +52,7 @@ steps:
   - docker push $${FULL_NAME}
   environment:
     BASE: /ukhomeofficedigital/
-    DOCKER_HOST: tcp://172.17.0.1:2375
+    DOCKER_HOST: tcp://127.0.0.1:2375
     DOCKER_PASSWORD:
       from_secret: docker_password
     DOCKER_USERNAME: ukhomeofficedigital+proxy
@@ -61,5 +61,9 @@ steps:
   when:
     event:
     - tag
+
+services:
+  - name: docker
+    image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
 
 ...
