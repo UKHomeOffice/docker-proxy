@@ -8,7 +8,7 @@ platform:
   arch: amd64
 
 steps:
-- name: build_image
+- name: build-image
   pull: if-not-exists
   image: plugins/docker
   commands:
