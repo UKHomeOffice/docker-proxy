@@ -12,7 +12,7 @@ steps:
   pull: if-not-exists
   image: plugins/docker
   commands:
-  - docker build -t docker-proxy .
+  - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
   environment:
     DOCKER_HOST: tcp://127.0.0.1:2375
     NAME: proxy
@@ -59,6 +59,7 @@ steps:
     REPO: quay.io
   when:
     event:
+    - push
     - tag
 
 services:
