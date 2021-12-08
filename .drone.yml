@@ -12,6 +12,7 @@ steps:
   pull: if-not-exists
   image: plugins/docker
   commands:
+  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
   - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
   environment:
     DOCKER_HOST: tcp://172.17.0.1:2375
