@@ -59,6 +59,7 @@ steps:
     REPO: quay.io
   when:
     event:
+    - push
     - tag
 
 services:
