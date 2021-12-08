@@ -12,10 +12,6 @@ steps:
   pull: if-not-exists
   image: plugins/docker
   commands:
-  - echo ${NAME}
-  - echo ${DRONE_COMMIT_SHA}
-  - echo ${REPO}
-  - echo ${BASE}
   - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
   environment:
     DOCKER_HOST: tcp://127.0.0.1:2375
@@ -51,8 +47,6 @@ steps:
   commands:
   - FULL_NAME=$${REPO}$${BASE}$${NAME}:$${DRONE_TAG}
   - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
-  - echo $${DRONE_COMMIT_SHA}
-  - echo ${DRONE_COMMIT_SHA}
   - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}
   - docker push $${FULL_NAME}
   environment:
