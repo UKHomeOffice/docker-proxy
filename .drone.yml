@@ -48,9 +48,9 @@ steps:
   - FULL_NAME=$${REPO}$${BASE}$${NAME}:$${DRONE_COMMIT_SHA}
   - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
   - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}
-  - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}:latest
+  - docker tag $${NAME}:$${DRONE_COMMIT_SHA} latest
   - docker push $${FULL_NAME}
-  - docker push $${FULL_NAME}:latest
+  - docker push latest
   environment:
     BASE: /ukhomeofficedigital/
     DOCKER_HOST: tcp://127.0.0.1:2375
