@@ -41,27 +41,7 @@ steps:
     event:
     - push
 
-#- name: push_image_tag
-#  pull: if-not-exists
-#  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-#  commands:
-#  - FULL_NAME=$${REPO}$${BASE}$${NAME}:$${DRONE_TAG}
-#  - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
-#  - docker tag $${NAME}:$${DRONE_TAG} $${FULL_NAME}
-#  - docker push $${FULL_NAME}
-#  environment:
-#    BASE: /ukhomeofficedigital/
-#    DOCKER_HOST: tcp://127.0.0.1:2375
-#    DOCKER_PASSWORD:
-#      from_secret: docker_password
-#    DOCKER_USERNAME: ukhomeofficedigital+proxy
-#    NAME: proxy
-#    REPO: quay.io
-#  when:
-#    event:
-#    - tag
-
-- name: docker-build-and-push
+- name: push-image-tag
   pull: if-not-exists
   image: plugins/docker
   settings:
