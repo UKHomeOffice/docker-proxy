@@ -23,9 +23,9 @@ steps:
   commands:
   - FULL_NAME=$${REPO}$${BASE}$${NAME}
   - docker login -u="$${DOCKER_USERNAME}" -p=$${DOCKER_PASSWORD} $${REPO}
-  - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}:$${DRONE_TAG}
+  - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}:$${DRONE_COMMIT_SHA}
   - docker tag $${NAME}:$${DRONE_COMMIT_SHA} $${FULL_NAME}:latest
-  - docker push $${FULL_NAME}:$${DRONE_TAG}
+  - docker push $${FULL_NAME}:$${DRONE_COMMIT_SHA}
   - docker push $${FULL_NAME}:latest
   environment:
     BASE: /ukhomeofficedigital/
@@ -36,6 +36,8 @@ steps:
     NAME: proxy
     REPO: quay.io
   when:
+    branch:
+    - master
     event:
     - push
 
@@ -58,6 +60,23 @@ steps:
   when:
     event:
     - tag
+
+- name: docker-build-and-push
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    registry: quay.io/ukhomeofficedigital
+    repo: quay.io/ukhomeofficedigital/proxy
+    tags:
+      - "${DRONE_TAG}"
+      - "latest"
+    username: ukhomeofficedigital+proxy
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_quay_password
+  when:
+    event:
+      - tag
 
 services:
   - name: docker
