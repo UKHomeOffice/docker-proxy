@@ -12,7 +12,7 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
-  - docker build -t $${NAME}:$${DRONE_COMMIT_SHA} .
+  - docker build -t $${NAME}:v3.1.0 .
   environment:
     DOCKER_HOST: tcp://127.0.0.1:2375
     NAME: proxy
