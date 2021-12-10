@@ -73,7 +73,7 @@ steps:
     username: ukhomeofficedigital+proxy
   environment:
     DOCKER_PASSWORD:
-      from_secret: docker_quay_password
+      from_secret: docker_password
   when:
     event:
       - tag
